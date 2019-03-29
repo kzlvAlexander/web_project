@@ -1,6 +1,5 @@
 from flask import Flask, render_template, json, request, redirect, session, jsonify, url_for
 from flaskext.mysql import MySQL
-from werkzeug.security import generate_password_hash, check_password_hash
 from werkzeug.wsgi import LimitedStream
 import uuid
 import os
@@ -337,7 +336,7 @@ def validateLogin():
         data = cursor.fetchall()
 
         if len(data) > 0:
-            if check_password_hash(str(data[0][3]), _password):
+            if str(data[0][3]) == _password:
                 session['user'] = data[0][0]
                 return redirect('/showDashboard')
             else:
@@ -349,34 +348,34 @@ def validateLogin():
         return render_template('error.html', error='Wrong Email address or Password.')
 
 
-@app.route('/signUp',methods=['POST','GET'])
+@app.route('/signUp', methods=['POST', 'GET'])
 def signUp():
     try:
-        _name = request.form['inputName']
-        _email = request.form['inputEmail']
-        _password = request.form['inputPassword']
+        name = request.form['inputName']
+        email = request.form['inputEmail']
+        password = request.form['inputPassword']
 
         # validate the received values
-        if _name and _email and _password:
+        if name and email and password:
 
-            # All Good, let's call the MySQL
+            # All Good, let call the MySQL
 
             with closing(mysql.connect()) as conn:
                 with closing(conn.cursor()) as cursor:
-                    _hashed_password = generate_password_hash(_password)
-                    cursor.callproc('sp_createUser',(_name,_email,_hashed_password))
+                    cursor.callproc('sp_createUser', (name, email, password))
                     data = cursor.fetchall()
 
                     if len(data) is 0:
                         conn.commit()
-                        return json.dumps({'message':'User created successfully !'})
+                        return json.dumps({'message': 'User created successfully !'})
                     else:
-                        return json.dumps({'error':str(data[0])})
+                        return json.dumps({'error': str(data[0])})
         else:
-            return json.dumps({'html':'<span>Enter the required fields</span>'})
+            return json.dumps({'html': '<span>Enter the required fields</span>'})
 
     except Exception as e:
-        return json.dumps({'error':str(e)})
+        return json.dumps({'error': str(e)})
+
 
 if __name__ == "__main__":
     app.run(port=5002)
