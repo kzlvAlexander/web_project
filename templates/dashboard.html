@@ -58,7 +58,7 @@
 
 			$(document).on('click','[id^="btn_"]',function(){
 				var spId = $(this).attr('id').split('_')[1];
-				//alert($(this).attr('id').split('_')[1]);
+				alert($(this).attr('id').split('_')[1]);
 				$.ajax({
 					url: '/addUpdateLike',
 					method: 'POST',
@@ -169,7 +169,7 @@
     
 
       <footer class="footer">
-        <p>&copy; Alex Kozlov 2019</p>
+        <p>&copy; Company 2015</p>
       </footer>
 
     </div>
