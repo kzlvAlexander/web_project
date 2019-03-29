@@ -12,8 +12,8 @@ mysql = MySQL(autocommit=True)
 app.config['SECRET_KEY'] = 'Thisissupposedtobesecret!'
 app.config['MYSQL_DATABASE_USER'] = 'root'
 app.config['MYSQL_DATABASE_PASSWORD'] = 'password'
-app.config['MYSQL_DATABASE_DB'] = 'BucketList'
-app.config['MYSQL_DATABASE_HOST'] = 'localhost'
+app.config['MYSQL_DATABASE_DB'] = 'sql9285818'
+app.config['MYSQL_DATABASE_HOST'] = 'sql9.freemysqlhosting.net '
 app.config['MYSQL_DATABASE_PORT'] = 3306
 app.config['MYSQL_CURSORCLASS'] = 'DictCursor'
 mysql.init_app(app)
